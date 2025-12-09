@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四川伯骏网络科技有限公司 | AR/VR 全栈解决方案专家</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#030712', // 极深蓝黑
+                            primary: '#0f172a', // 主要背景
+                            accent: '#38bdf8', // 科技蓝
+                            purple: '#a855f7', // 霓虹紫
+                            secondary: '#1e293b' // 卡片背景
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to right bottom, rgba(3, 7, 18, 0.9), rgba(15, 23, 42, 0.8)), url('https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1920')",
+                        'cyber-grid': "radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%)"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7;
+        }
+        
+        /* 玻璃拟态特效 */
+        .glass-nav {
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.3);
+        }
+
+        /* 动画类 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-300 font-sans overflow-x-hidden selection:bg-brand-accent selection:text-white">
+
+    <!-- 1. 导航栏 (Navbar) -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-brand-accent to-brand-purple rounded flex items-center justify-center text-white font-bold text-xl">
+                    <i class="fa-solid fa-cube"></i>
+                </div>
+                <div class="text-2xl font-bold text-white tracking-wider">
+                    伯骏<span class="text-brand-accent">科技</span>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#home" class="hover:text-brand-accent transition-colors">首页</a>
+                <a href="#services" class="hover:text-brand-accent transition-colors">核心业务</a>
+                <a href="#solutions" class="hover:text-brand-accent transition-colors">行业方案</a>
+                <a href="#cases" class="hover:text-brand-accent transition-colors">精选案例</a>
+                <a href="#about" class="hover:text-brand-accent transition-colors">关于我们</a>
+                <a href="#contact" class="px-6 py-2 bg-brand-accent text-brand-dark font-bold rounded hover:bg-white transition-all">联系咨询</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-primary border-b border-gray-800">
+            <div class="flex flex-col p-6 space-y-4">
+                <a href="#home" class="block hover:text-brand-accent">首页</a>
+                <a href="#services" class="block hover:text-brand-accent">核心业务</a>
+                <a href="#solutions" class="block hover:text-brand-accent">行业方案</a>
+                <a href="#cases" class="block hover:text-brand-accent">精选案例</a>
+                <a href="#contact" class="block text-brand-accent">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. 首屏 (Hero Section) -->
+    <section id="home" class="relative h-screen bg-hero-pattern bg-cover bg-center flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center fade-in-up">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-purple/20 border border-brand-purple/50 text-brand-purple text-sm mb-6 font-semibold tracking-widest">
+                FUTURE REALITY • 四川自贡
+            </span>
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
+                在虚拟与现实的边界<br>
+                <span class="gradient-text">重塑视界</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                四川伯骏网络科技有限公司致力于 AR/VR 前沿技术研发。我们利用数字孪生与全息交互技术，为工业、教育、文旅行业构建沉浸式的未来体验。
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#contact" class="px-8 py-4 bg-brand-accent hover:bg-brand-purple text-brand-dark font-bold rounded text-lg transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,0.5)]">
+                    启动您的项目
+                </a>
+                <a href="#cases" class="px-8 py-4 border border-gray-600 hover:border-white text-white rounded text-lg transition-all duration-300 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play"></i> 观看演示
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 合作伙伴/技术栈跑马灯 (Ticker) -->
+    <section class="py-8 bg-brand-primary border-b border-gray-800 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <p class="text-center text-sm text-gray-500 mb-6 tracking-widest">POWERED BY WORLD CLASS TECHNOLOGY</p>
+            <div class="flex justify-between items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-500 flex-wrap gap-8 md:gap-0">
+                <i class="fa-brands fa-unity text-4xl hover:text-white"></i>
+                <i class="fa-brands fa-meta text-4xl hover:text-blue-500"></i>
+                <i class="fa-brands fa-microsoft text-4xl hover:text-blue-300"></i>
+                <i class="fa-brands fa-steam text-4xl hover:text-white"></i>
+                <i class="fa-brands fa-google text-4xl hover:text-red-400"></i>
+                <i class="fa-brands fa-apple text-4xl hover:text-gray-200"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 品牌宣言 (Brand Intro) -->
+    <section class="py-20 bg-brand-dark relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-brand-accent/5 blur-[100px]"></div>
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">我们不只是写代码<br>我们在构建<span class="text-brand-accent">平行世界</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-brand-accent to-brand-purple mb-8"></div>
+                <p class="text-gray-400 mb-6 leading-relaxed">
+                    伯骏科技坐落于自贡市南湖生态城，我们是一群由极客、艺术家和工程师组成的团队。我们深信，下一代互联网不仅仅是信息的传递，更是感官的延伸。
+                </p>
+                <p class="text-gray-400 leading-relaxed">
+                    从复杂的工业仿真培训，到令人惊叹的景区 AR 导览，我们用技术弥合物理世界与数字世界的鸿沟，为企业创造前所未有的价值。
+                </p>
+            </div>
+            <div class="md:w-1/2 relative fade-in-up delay-200">
+                <img src="https://images.pexels.com/photos/1261822/pexels-photo-1261822.jpeg?auto=compress&cs=tinysrgb&w=800" alt="VR Development" class="rounded-lg shadow-2xl z-10 relative border border-gray-800">
+                <div class="absolute -bottom-6 -left-6 w-full h-full border-2 border-brand-purple/30 rounded-lg -z-0"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 核心服务网格 (Core Services) -->
+    <section id="services" class="py-24 bg-brand-primary">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">核心业务体系</h2>
+                <p class="mt-4 text-gray-400">端到端的沉浸式技术解决方案</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="glass-card p-8 rounded-2xl fade-in-up">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 text-2xl mb-6">
+                        <i class="fa-solid fa-vr-cardboard"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">VR 虚拟仿真培训</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">针对高危、高成本行业（电力、消防、医疗），构建 1:1 还原的虚拟实训环境，降低培训成本，提升安全意识。</p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="glass-card p-8 rounded-2xl fade-in-up delay-100">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-lg flex items-center justify-center text-purple-400 text-2xl mb-6">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">AR 增强现实营销</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">利用 WebAR 小程序，让产品包装动起来。为品牌提供互动式营销方案，提升用户参与度和转化率。</p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="glass-card p-8 rounded-2xl fade-in-up delay-200">
+                    <div class="w-14 h-14 bg-green-500/10 rounded-lg flex items-center justify-center text-green-400 text-2xl mb-6">
+                        <i class="fa-solid fa-city"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">数字孪生智慧城市</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">整合 GIS 与 IoT 数据，可视化呈现城市/园区运行状态，辅助管理者进行高效决策与应急指挥。</p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="glass-card p-8 rounded-2xl fade-in-up">
+                    <div class="w-14 h-14 bg-pink-500/10 rounded-lg flex items-center justify-center text-pink-400 text-2xl mb-6">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">元宇宙游戏定制</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">基于 Unity/Unreal 引擎的高品质游戏开发，支持多人联机、区块链资产对接及沉浸式交互设计。</p>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="glass-card p-8 rounded-2xl fade-in-up delay-100">
+                    <div class="w-14 h-14 bg-yellow-500/10 rounded-lg flex items-center justify-center text-yellow-400 text-2xl mb-6">
+                        <i class="fa-solid fa-panorama"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">720° 全景漫游</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">超高清全景拍摄与制作，适用于房产样板间、酒店民宿、博物馆线上展厅，实现足不出户的云游体验。</p>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="glass-card p-8 rounded-2xl fade-in-up delay-200">
+                    <div class="w-14 h-14 bg-orange-500/10 rounded-lg flex items-center justify-center text-orange-400 text-2xl mb-6">
+                        <i class="fa-solid fa-glasses"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">MR 混合现实开发</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">适配 HoloLens、Vision Pro 等高端设备，实现虚实融合的工业辅助装配、远程协作指导应用。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 重点案例展示 (Featured Project - Immersive) -->
+    <section class="py-0 flex flex-col md:flex-row bg-brand-dark min-h-[600px]">
+        <div class="md:w-1/2 relative h-[400px] md:h-auto">
+            <img src="https://images.pexels.com/photos/256297/pexels-photo-256297.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Industrial VR" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-brand-accent/20 mix-blend-overlay"></div>
+        </div>
+        <div class="md:w-1/2 p-12 md:p-24 flex flex-col justify-center bg-brand-secondary border-l border-gray-800">
+            <span class="text-brand-accent font-bold tracking-wider mb-2">INDUSTRIAL 4.0</span>
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">智能工厂数字孪生中台</h2>
+            <p class="text-gray-400 mb-8 leading-relaxed">
+                我们为四川某大型机械制造企业构建了全厂区数字孪生系统。通过实时对接生产线传感器数据，管理人员可以在 3D 界面中实时查看设备温度、产能效率及故障预警。
+            </p>
+            <ul class="space-y-4 mb-8 text-gray-300">
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-purple"></i> 毫秒级数据同步延迟</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-purple"></i> 1:1 厂区高精度建模</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-purple"></i> 跨平台 Web 端可视化展示</li>
+            </ul>
+            <a href="#" class="text-white hover:text-brand-accent font-bold inline-flex items-center gap-2 transition-colors">
+                查看案例详情 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 7. 技术实力 (Tech Stack) -->
+    <section class="py-20 bg-brand-dark">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6 border border-gray-800 rounded hover:border-brand-accent/50 transition-colors fade-in-up">
+                    <p class="text-4xl font-bold text-white mb-2 counter" data-target="50">0</p>
+                    <p class="text-gray-500 uppercase text-xs tracking-wider">完成项目</p>
+                </div>
+                <div class="p-6 border border-gray-800 rounded hover:border-brand-accent/50 transition-colors fade-in-up delay-100">
+                    <p class="text-4xl font-bold text-white mb-2 counter" data-target="12">0</p>
+                    <p class="text-gray-500 uppercase text-xs tracking-wider">技术专利/软著</p>
+                </div>
+                <div class="p-6 border border-gray-800 rounded hover:border-brand-accent/50 transition-colors fade-in-up delay-200">
+                    <p class="text-4xl font-bold text-white mb-2 counter" data-target="5">0</p>
+                    <p class="text-gray-500 uppercase text-xs tracking-wider">深耕行业年限</p>
+                </div>
+                <div class="p-6 border border-gray-800 rounded hover:border-brand-accent/50 transition-colors fade-in-up delay-300">
+                    <p class="text-4xl font-bold text-white mb-2 counter" data-target="98">0</p>
+                    <p class="text-gray-500 uppercase text-xs tracking-wider">% 客户满意度</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 解决方案：文旅 (Tourism Solution) -->
+    <section id="solutions" class="py-24 bg-brand-primary relative">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="md:w-1/2 fade-in-up">
+                    <img src="https://images.pexels.com/photos/3052361/pexels-photo-3052361.jpeg?auto=compress&cs=tinysrgb&w=800" class="rounded-2xl shadow-2xl border border-gray-700" alt="AR Tourism">
+                </div>
+                <div class="md:w-1/2 fade-in-up delay-100">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-8 h-[2px] bg-brand-purple"></span>
+                        <span class="text-brand-purple font-bold uppercase">智慧文旅</span>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-6">让历史文物在游客眼中<br>"活"起来</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        结合自贡恐龙与灯会文化，伯骏科技推出"时光之镜"AR导览方案。游客只需扫描景点，即可看到恐龙复活漫步、古建筑复原的震撼景象。支持语音讲解、AR 寻宝游戏，极大地延长了游客停留时间。
+                    </p>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors">
+                        了解文旅方案
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. 解决方案：教育 (Education Solution) -->
+    <section class="py-24 bg-brand-dark">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 fade-in-up">
+                    <img src="https://images.pexels.com/photos/4145197/pexels-photo-4145197.jpeg?auto=compress&cs=tinysrgb&w=800" class="rounded-2xl shadow-2xl border border-gray-700" alt="VR Education">
+                </div>
+                <div class="md:w-1/2 fade-in-up delay-100">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-8 h-[2px] bg-brand-accent"></span>
+                        <span class="text-brand-accent font-bold uppercase">K12 与职业教育</span>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-6">沉浸式课堂<br>打破书本的边界</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        为学校打造 VR 实验室。学生可以"进入"人体血管观察血液流动，或是置身于浩瀚宇宙观察星系运行。针对职业院校，提供汽修、焊接、机械操作的虚拟实训，无耗材、零风险。
+                    </p>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors">
+                        了解教育方案
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. 我们的优势 (Why Us) -->
+    <section class="py-20 bg-gradient-to-b from-brand-secondary to-brand-primary">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white">为什么选择伯骏科技</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="p-8 border-l-4 border-brand-accent bg-brand-dark/50 hover:bg-brand-dark transition-colors">
+                    <h4 class="text-xl font-bold text-white mb-4">全栈自研引擎</h4>
+                    <p class="text-gray-400 text-sm">拒绝套壳，我们拥有深度定制的 Web3D 渲染内核，确保在网页端也能流畅运行大型 3D 场景。</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="p-8 border-l-4 border-brand-purple bg-brand-dark/50 hover:bg-brand-dark transition-colors">
+                    <h4 class="text-xl font-bold text-white mb-4">本地化服务响应</h4>
+                    <p class="text-gray-400 text-sm">立足自贡，辐射四川。我们承诺省内客户 24 小时内上门技术支持，确保项目无忧落地。</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="p-8 border-l-4 border-blue-500 bg-brand-dark/50 hover:bg-brand-dark transition-colors">
+                    <h4 class="text-xl font-bold text-white mb-4">跨平台交付</h4>
+                    <p class="text-gray-400 text-sm">一次开发，多端运行。您的项目可以同时发布在 PC、手机、VR 一体机及微信小程序上。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. 项目流程 (Workflow) -->
+    <section class="py-20 bg-brand-dark">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white text-center mb-16">标准化交付流程</h2>
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
+                <div class="relative group">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:bg-brand-accent transition-colors">1</div>
+                    <h5 class="text-white font-bold">需求梳理</h5>
+                </div>
+                <div class="relative group">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:bg-brand-accent transition-colors">2</div>
+                    <h5 class="text-white font-bold">交互设计</h5>
+                </div>
+                <div class="relative group">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:bg-brand-accent transition-colors">3</div>
+                    <h5 class="text-white font-bold">3D 建模</h5>
+                </div>
+                <div class="relative group">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:bg-brand-accent transition-colors">4</div>
+                    <h5 class="text-white font-bold">引擎开发</h5>
+                </div>
+                <div class="relative group">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:bg-brand-accent transition-colors">5</div>
+                    <h5 class="text-white font-bold">测试调优</h5>
+                </div>
+                <div class="relative group">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:bg-brand-accent transition-colors">6</div>
+                    <h5 class="text-white font-bold">交付培训</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. 客户评价 (Testimonials) -->
+    <section class="py-24 bg-brand-primary border-y border-gray-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white mb-12 text-center">客户反馈</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-brand-dark p-8 rounded-xl relative">
+                    <i class="fa-solid fa-quote-left text-4xl text-gray-700 absolute top-4 left-4"></i>
+                    <p class="text-gray-300 relative z-10 italic mb-6">"伯骏团队的技术实力超出了我们的预期。他们开发的 AR 导览系统不仅稳定，而且视觉效果非常惊艳，为我们的景区带来了大量年轻游客。"</p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100" class="w-12 h-12 rounded-full grayscale" alt="Client">
+                        <div>
+                            <h5 class="text-white font-bold">李经理</h5>
+                            <p class="text-xs text-gray-500">某文旅集团 运营总监</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-brand-dark p-8 rounded-xl relative">
+                    <i class="fa-solid fa-quote-left text-4xl text-gray-700 absolute top-4 left-4"></i>
+                    <p class="text-gray-300 relative z-10 italic mb-6">"虚拟仿真系统极大地降低了我们新员工的培训风险，现在工人在上机操作前都能熟练掌握流程，非常感谢伯骏的专业服务。"</p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100" class="w-12 h-12 rounded-full grayscale" alt="Client">
+                        <div>
+                            <h5 class="text-white font-bold">张工</h5>
+                            <p class="text-xs text-gray-500">某机械制造厂 安全主管</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. 团队风采 (Team) -->
+    <section id="about" class="py-20 bg-brand-dark">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold text-white mb-12">核心团队</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="group relative overflow-hidden rounded-lg">
+                    <img src="https://images.pexels.com/photos/3184611/pexels-photo-3184611.jpeg?auto=compress&cs=tinysrgb&w=600" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110" alt="Team">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div class="text-left">
+                            <h4 class="text-white font-bold text-lg">技术开发组</h4>
+                            <p class="text-brand-accent text-sm">Unity/Unreal 工程师</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg">
+                    <img src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110" alt="Team">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div class="text-left">
+                            <h4 class="text-white font-bold text-lg">视觉设计组</h4>
+                            <p class="text-brand-accent text-sm">3D 建模与 UI</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg">
+                    <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110" alt="Team">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div class="text-left">
+                            <h4 class="text-white font-bold text-lg">项目管理组</h4>
+                            <p class="text-brand-accent text-sm">流程与质量把控</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="group relative overflow-hidden rounded-lg bg-brand-secondary flex flex-col justify-center items-center h-80 border border-dashed border-gray-700 hover:border-brand-accent hover:bg-brand-secondary/50 transition-all cursor-pointer">
+                    <div class="text-4xl text-gray-600 mb-2 group-hover:text-white">+</div>
+                    <p class="text-gray-400 group-hover:text-brand-accent">加入我们</p>
+                    <p class="text-xs text-gray-600 mt-2">recruit@scbojuntech.asia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. 常见问题 (FAQ) -->
+    <section class="py-20 bg-brand-primary">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="text-3xl font-bold text-white mb-12 text-center">常见问题</h2>
+            <div class="space-y-4">
+                <div class="border border-gray-800 rounded-lg p-6 bg-brand-secondary/30">
+                    <h5 class="text-white font-bold mb-2 cursor-pointer flex justify-between">VR 项目的开发周期通常是多久？ <i class="fa-solid fa-chevron-down text-gray-500"></i></h5>
+                    <p class="text-gray-400 text-sm">视项目复杂度而定。简单的 3D 展厅约为 2-4 周，复杂的工业交互仿真系统通常需要 2-3 个月。</p>
+                </div>
+                <div class="border border-gray-800 rounded-lg p-6 bg-brand-secondary/30">
+                    <h5 class="text-white font-bold mb-2 cursor-pointer flex justify-between">是否支持定制硬件采购？ <i class="fa-solid fa-chevron-down text-gray-500"></i></h5>
+                    <p class="text-gray-400 text-sm">是的，我们与 Pico、HTC、Nolo 等主流 VR 硬件厂商有合作关系，可为客户提供软硬一体化解决方案。</p>
+                </div>
+                <div class="border border-gray-800 rounded-lg p-6 bg-brand-secondary/30">
+                    <h5 class="text-white font-bold mb-2 cursor-pointer flex justify-between">后期维护如何保障？ <i class="fa-solid fa-chevron-down text-gray-500"></i></h5>
+                    <p class="text-gray-400 text-sm">我们提供一年期的免费质保服务，包括软件 Bug 修复和简单的数据更新。期满后可签署长期运维协议。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 15. 最新动态 (News/Blog) -->
+    <section class="py-20 bg-brand-dark">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <h2 class="text-3xl font-bold text-white">行业动态</h2>
+                <a href="#" class="text-brand-accent hover:text-white text-sm">查看更多 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- News 1 -->
+                <article class="group cursor-pointer">
+                    <div class="overflow-hidden rounded-lg mb-4">
+                        <img src="https://images.pexels.com/photos/8349235/pexels-photo-8349235.jpeg?auto=compress&cs=tinysrgb&w=600" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" alt="News">
+                    </div>
+                    <span class="text-xs text-brand-purple font-bold">2023-10-24</span>
+                    <h4 class="text-lg font-bold text-white mt-2 group-hover:text-brand-accent transition-colors">苹果 Vision Pro 发布，将如何改变工业设计流程？</h4>
+                </article>
+                <!-- News 2 -->
+                <article class="group cursor-pointer">
+                    <div class="overflow-hidden rounded-lg mb-4">
+                        <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" alt="News">
+                    </div>
+                    <span class="text-xs text-brand-purple font-bold">2023-09-15</span>
+                    <h4 class="text-lg font-bold text-white mt-2 group-hover:text-brand-accent transition-colors">伯骏科技入选四川省"专精特新"企业培育库</h4>
+                </article>
+                <!-- News 3 -->
+                <article class="group cursor-pointer">
+                    <div class="overflow-hidden rounded-lg mb-4">
+                        <img src="https://images.pexels.com/photos/4389463/pexels-photo-4389463.jpeg?auto=compress&cs=tinysrgb&w=600" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" alt="News">
+                    </div>
+                    <span class="text-xs text-brand-purple font-bold">2023-08-01</span>
+                    <h4 class="text-lg font-bold text-white mt-2 group-hover:text-brand-accent transition-colors">数字孪生技术在智慧水务领域的应用实践</h4>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 16. 订阅/CTA (Call to Action) -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-purple to-blue-600 opacity-20"></div>
+        <div class="absolute inset-0 bg-brand-dark/90"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">准备好开启沉浸式未来了吗？</h2>
+            <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">无论您需要一个简单的 AR 演示，还是复杂的工业元宇宙系统，我们都乐意为您提供咨询。</p>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <input type="email" placeholder="输入您的邮箱获取方案书" class="px-6 py-4 bg-white/10 border border-gray-600 text-white placeholder-gray-400 rounded-lg w-full md:w-96 focus:outline-none focus:border-brand-accent">
+                <button class="px-8 py-4 bg-brand-accent text-brand-dark font-bold rounded-lg hover:bg-white transition-colors w-full md:w-auto">
+                    免费咨询
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 17. 详细联系 (Contact Info) -->
+    <section id="contact" class="py-20 bg-black">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-8">联系方式</h3>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-accent flex-shrink-0">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold">公司地址</h5>
+                            <p class="text-gray-400">四川省自贡市自流井区南湖生态城<br>泰丰国际贸易中心C栋19-18号</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-accent flex-shrink-0">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold">商务热线</h5>
+                            <p class="text-gray-400 font-mono text-lg">189 8033 8768</p>
+                            <p class="text-gray-500 text-sm">周一至周五 9:00 - 18:00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-accent flex-shrink-0">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold">电子邮箱</h5>
+                            <p class="text-gray-400">contact@scbojuntech.asia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 模拟地图位置 -->
+            <div class="bg-gray-800 rounded-xl overflow-hidden h-80 relative group cursor-pointer border border-gray-800 hover:border-brand-accent/50 transition-colors">
+                <!-- 地图背景图 -->
+                <img src="https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Location Map" class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700 transform group-hover:scale-110">
+                
+                <!-- 遮罩与内容 -->
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 to-transparent flex items-center justify-center">
+                    <div class="bg-brand-dark/80 backdrop-blur-md p-6 rounded-xl border border-brand-accent/30 shadow-[0_0_30px_rgba(56,189,248,0.2)] transform transition-transform group-hover:-translate-y-2">
+                        <div class="flex flex-col items-center">
+                            <div class="relative">
+                                <i class="fa-solid fa-location-dot text-brand-accent text-4xl mb-3 drop-shadow-[0_0_10px_rgba(56,189,248,0.8)] animate-bounce"></i>
+                                <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-2 bg-brand-accent/50 rounded-full blur-sm animate-pulse"></div>
+                            </div>
+                            <h4 class="text-white font-bold mb-1 tracking-wide">自贡 · 南湖生态城</h4>
+                            <p class="text-xs text-gray-400 font-mono">泰丰国际贸易中心C栋19-18号</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 18. 页脚 (Footer) -->
+    <footer class="bg-brand-dark border-t border-gray-900 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="text-2xl font-bold text-white tracking-wider mb-4">
+                        伯骏<span class="text-brand-accent">科技</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        专注 AR/VR/MR 技术研发，为企业数字化转型提供沉浸式解决方案。
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-4">快速链接</h5>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-brand-accent">关于我们</a></li>
+                        <li><a href="#" class="hover:text-brand-accent">服务项目</a></li>
+                        <li><a href="#" class="hover:text-brand-accent">成功案例</a></li>
+                        <li><a href="#" class="hover:text-brand-accent">招贤纳士</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-4">技术领域</h5>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-brand-accent">Unity 开发</a></li>
+                        <li><a href="#" class="hover:text-brand-accent">Unreal Engine 5</a></li>
+                        <li><a href="#" class="hover:text-brand-accent">WebXR</a></li>
+                        <li><a href="#" class="hover:text-brand-accent">数字孪生</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-4">关注我们</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded flex items-center justify-center text-gray-400 hover:bg-brand-accent hover:text-brand-dark transition-colors"><i class="fa-brands fa-weixin"></i></a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded flex items-center justify-center text-gray-400 hover:bg-brand-accent hover:text-brand-dark transition-colors"><i class="fa-brands fa-weibo"></i></a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded flex items-center justify-center text-gray-400 hover:bg-brand-accent hover:text-brand-dark transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-600 text-sm">© 2023 四川伯骏网络科技有限公司. All rights reserved.</p>
+                <div class="flex space-x-6 text-sm text-gray-600 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-gray-400">隐私政策</a>
+                    <a href="#" class="hover:text-gray-400">服务条款</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 交互逻辑 -->
+    <script>
+        // 1. 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+                navbar.style.background = 'rgba(3, 7, 18, 0.95)';
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
+                navbar.style.background = 'rgba(3, 7, 18, 0.85)';
+            }
+        });
+
+        // 3. 滚动渐显动画 (Intersection Observer)
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 4. 数字增长动画
+        const counters = document.querySelectorAll('.counter');
+        let hasAnimated = false;
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !hasAnimated) {
+                hasAnimated = true;
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const increment = target / 50; 
+                    
+                    const updateCounter = () => {
+                        const c = +counter.innerText;
+                        if (c < target) {
+                            counter.innerText = Math.ceil(c + increment);
+                            setTimeout(updateCounter, 30);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCounter();
+                });
+            }
+        }, { threshold: 0.5 });
+
+        if(counters.length > 0) {
+            counterObserver.observe(counters[0].parentElement);
+        }
+    </script>
+</body>
+</html>
